@@ -6,17 +6,14 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import test.config.ConfigFile;
 import test.steps.SomeSteps;
 import test.steps.SomeLoginSteps;
-import test.testRail.TestRailManager;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import test.utilities.BrowserFactory;
-import org.junit.platform.engine.TestExecutionResult;
 
 import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Selenide.clearBrowserCookies;
@@ -40,7 +37,7 @@ public class BaseTest {
                 .fieldUserPassword(password)
                 .clickOnSubmitButtonOnSso()
                 .clickOnButtonYesInAzure();
-        login.checkPageTitle("Marketing Budget Management App");
+        login.checkPageTitle("Title");
     }
 
     @BeforeAll

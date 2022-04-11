@@ -47,6 +47,5 @@ public class SomeUITest extends BaseTest {
         steps.checkSaveResultByHeadersContains(0, new HashMap<String, String>() {{
             put("string", "string");
         }});
-        TestRailManager.addResultForTestCase(TestCaseId, TestRailManager.TEST_CASE_PASSED_STATUS, "");
     }
 }
