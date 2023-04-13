@@ -1,81 +1,105 @@
-package test.steps;
+package steps;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
-import test.pages.SomeLoginPage;
 import io.qameta.allure.Step;
-import net.jodah.failsafe.internal.util.Assert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.codeborne.selenide.Selenide.sleep;
-import static test.utilities.URL.openURL;
+import static com.codeborne.selenide.WebDriverConditions.title;
 
 public class SomeLoginSteps {
 
-    SomeLoginPage page;
+    SomeLoginPage someLoginPage;
 
     public static Logger logger = LogManager.getLogger(SomeLoginSteps.class);
 
     public SomeLoginSteps() {
-        this.page = Selenide.page(SomeLoginPage.class);
+        this.someLoginPage = Selenide.page(SomeLoginPage.class);
     }
 
-    @Step("Open Tool")
-    public SomeLoginSteps openSignupPage() {
-        openURL();
-        logger.info("Opened Tool");
+    @Step("")
+    public SomeLoginSteps clickOnButtonSignIn() {
+        someLoginPage.buttonSignIn()
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .click();
+        logger.info("");
         return this;
     }
 
-    @Step("Click on button submit in Azure")
-    public SomeLoginSteps clickOnSignInButton() {
-        page.buttonSignIn();
-        logger.info("Clicked on button Submit in Azure");
+    @Step("")
+    public SomeLoginSteps fillInputUserEmail(String email) {
+        someLoginPage.inputEmail()
+                .sendKeys(email);
+        logger.info("", email);
         return this;
     }
 
-    @Step("Type user Email in Azure")
-    public SomeLoginSteps fieldUserEmail(String email) {
-        page.fieldEmail(email);
-        logger.info("Fill user Email field");
+    @Step("")
+    public SomeLoginSteps fillInputUserPassword(String password) {
+        Selenide.sleep(1000);
+        someLoginPage.inputPassword()
+                .sendKeys(password);
+        logger.info("", password);
         return this;
     }
 
-    @Step("Click on submit button")
-    public SomeLoginSteps clickOnSubmitButton() {
-        page.submitButton();
-        logger.info("Clicked on Submit Button");
+    @Step("")
+    public SomeLoginSteps clickOnButtonSubmit() {
+        Selenide.sleep(1000);
+        someLoginPage.buttonSubmit()
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .click();
+        logger.info("");
         return this;
     }
 
-    @Step("Type user Password in ADFS")
-    public SomeLoginSteps fieldUserPassword(String password) {
-        sleep(2000);
-        page.fieldPassword(password);
-        logger.info("Fill user password field");
+    @Step("")
+    public SomeLoginSteps clickOnButtonSighOut() {
+        someLoginPage.buttonSignOut()
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .click();
+        logger.info("");
         return this;
     }
 
-    @Step("Click on submit button from ADFS")
-    public SomeLoginSteps clickOnSubmitButtonOnSso() {
-        page.submitButtonOnSso();
-        logger.info("Clicked on Submit button on ADFS");
+    @Step("")
+    public SomeLoginSteps clickOnButtonConfirmSignOut() {
+        someLoginPage.buttonConfirmSignOut()
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .click();
+        logger.info("");
         return this;
     }
 
-    @Step("Click on button Yes in Azure confirmation Login")
-    public SomeLoginSteps clickOnButtonYesInAzure() {
-        page.buttonYesInAzureAuth();
-        logger.info("Clicked on button Yes in Azure confirmation login");
+    @Step("")
+    public SomeLoginSteps clickOnButtonSighInOtherAccount() {
+        someLoginPage.buttonSighInOtherAccount()
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .click();
+        logger.info("");
         return this;
     }
 
-    @Step("Check if log in are correct")
+    @Step("")
+    public SomeLoginSteps clickOnButtonAccount() {
+        someLoginPage.buttonAccount()
+                .shouldBe(Condition.visible)
+                .shouldBe(Condition.enabled)
+                .click();
+        logger.info("");
+        return this;
+    }
+
+    @Step("Check if page title are visible")
     public SomeLoginSteps checkPageTitle(String expectedTitle) {
-        Assert.isTrue(
-                page.titleName().contains(expectedTitle), "Wrong page title"
-        );
-        logger.info("Checked title page name");
+        Selenide.webdriver().shouldHave(title(expectedTitle));
+        logger.info("");
         return this;
     }
 }

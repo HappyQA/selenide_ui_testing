@@ -1,50 +1,49 @@
-package test.pages;
+package pages;
 
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$x;
-import static com.codeborne.selenide.Selenide.title;
 
 public class SomeLoginPage {
 
-    private static final SelenideElement sighInButton = $x("//a");
-    private static final SelenideElement emailField = $x("//input[@type=\"email\"]");
-    private static final SelenideElement submitButton = $x("//input[@type=\"submit\"]");
-    private static final SelenideElement passwordField = $x("//input[@type=\"password\"]");
-    private static final SelenideElement submitButtonOnSso = $x("//span[@class=\"submit\"]");
-    private static final SelenideElement buttonYes = $x("//input[@type=\"submit\"]");
+    private static final SelenideElement buttonSighIn = $x("//a");
+    private static final SelenideElement inputEmail = $x("//input[@type='email']");
+    private static final SelenideElement inputPassword = $x("//input[@type='password']");
+    private static final SelenideElement buttonSubmit = $x("//input[@type='submit']");
+    private static final SelenideElement buttonSighOut = $x("//button//span[contains(text(), 'Sign Out')]");
+    private static final SelenideElement buttonConfirmSignOut = $x("//div[starts-with(@data-test-id, 'test')]");
+    private static final SelenideElement buttonOtherAccount = $x("//div[@id='otherTile']");
+    private static final SelenideElement buttonAccount = $x("//a[@href='/account']");
 
-    public SomeLoginPage buttonSignIn() {
-        sighInButton.click();
-        return this;
+    public SelenideElement buttonSignIn() {
+        return buttonSighIn;
     }
 
-    public SomeLoginPage fieldEmail(String email) {
-        emailField.sendKeys(email);
-        return this;
+    public SelenideElement inputEmail() {
+        return inputEmail;
     }
 
-    public SomeLoginPage submitButton() {
-        submitButton.click();
-        return this;
+    public SelenideElement inputPassword() {
+        return inputPassword;
     }
 
-    public SomeLoginPage fieldPassword(String password) {
-        passwordField.sendKeys(password);
-        return this;
+    public SelenideElement buttonSubmit() {
+        return buttonSubmit;
     }
 
-    public SomeLoginPage submitButtonOnSso() {
-        submitButtonOnSso.click();
-        return this;
+    public SelenideElement buttonSignOut() {
+        return buttonSighOut;
     }
 
-    public SomeLoginPage buttonYesInAzureAuth() {
-        buttonYes.click();
-        return this;
+    public SelenideElement buttonConfirmSignOut() {
+        return buttonConfirmSignOut;
     }
 
-    public String titleName() {
-        return title();
+    public SelenideElement buttonSighInOtherAccount() {
+        return buttonOtherAccount;
+    }
+
+    public SelenideElement buttonAccount() {
+        return buttonAccount;
     }
 }
