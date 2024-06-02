@@ -1,7 +1,7 @@
 package cred;
 
 @org.aeonbits.owner.Config.Sources("classpath:config.properties")
-public interface CredentialsFile extends org.aeonbits.owner.Config {
+public interface ICredentialsFile extends org.aeonbits.owner.Config {
 
     @Key("TestKey")
     String someTestValue();

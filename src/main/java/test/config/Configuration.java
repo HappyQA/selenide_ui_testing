@@ -1,37 +1,35 @@
-package conf;
+package configuration;
 
-import com.codeborne.selenide.FileDownloadMode;
-import com.codeborne.selenide.Selenide;
+public class Configuration {
 
-import com.codeborne.selenide.logevents.SelenideLogger;
-import org.aeonbits.owner.ConfigFactory;
+    public static ICredentialsFile cfg = ConfigFactory.create(ICredentialsFile.class);
 
-import org.openqa.selenium.chrome.ChromeOptions;
-import test.utilities.TestData;
+    public static String baseUrl = "https://base.url/";
 
-public class Configuration extends TestData {
+    protected SomeLoginSteps someLoginSteps;
 
-    public static String baseUrl = "https://app.url/";
-    public static CredentialsFile cfg = ConfigFactory.create(CredentialsFile.class);
-    protected static SomeLoginStepsLoginSteps someLoginStepsLoginSteps;
     public void initialStepsClasses() {
-        someLoginStepsLoginSteps = new SomeLoginStepsLoginSteps();
+        someLoginSteps = new SomeLoginSteps();
     }
 
     @BeforeAll
-    static void settingUpBrowser() {
-        ChromeOptions options = new ChromeOptions()
+    public static void settingUpBrowser() {
+        String getRemoteProperty = System.getProperty("remote");
+        ChromeOptions options = (ChromeOptions) new ChromeOptions()
                 .addArguments("--lang=en_US")
-                .addArguments("--remote-allow-origins=*");
+                .addArguments("--remote-allow-origins=*")
+                .setEnableDownloads(true);
         Configuration.browserCapabilities = options;
         Configuration.browser = "chrome";
         Configuration.browserSize = "1920x1080";
-        Configuration.timeout = 5000;
+        Configuration.timeout = 10000;
         Configuration.holdBrowserOpen = false;
         Configuration.fileDownload = FileDownloadMode.FOLDER;
         Configuration.headless = false;
         Configuration.baseUrl = baseUrl;
-        Configuration.remote = "https://grid.url/";
+        if (getRemoteProperty.equals("true")) {
+            Configuration.remote = "http://selenium4.test.hub/wd/hub";
+        }
 
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
                 .screenshots(true)
@@ -39,9 +37,14 @@ public class Configuration extends TestData {
                 .includeSelenideSteps(false)
         );
 
-        /**
-         * Do login by login steps into application.
-         */
+        SomeLoginSteps someLoginSteps = new SomeLoginSteps();
+        someLoginSteps.clickOnButtonSignIn()
+                .fillInputUserEmail(cfg.user())
+                .clickOnButtonSubmit()
+                .fillInputUserPassword(cfg.password())
+                .clickOnButtonSubmit()
+                .clickOnButtonSubmit();
+        someLoginSteps.checkPageTitle("Test Title");
     }
 
     @BeforeEach
@@ -57,20 +60,5 @@ public class Configuration extends TestData {
     @AfterAll
     public static void closeDownBrowser() {
         Selenide.closeWebDriver();
-    }
-
-    public void loginApplicationWithDifferentUser(String email, String password) {
-        loginSteps.clickOnButtonSighOut()
-                .clickOnButtonConfirmSignOut();
-        Selenide.clearBrowserCookies();
-        Selenide.clearBrowserLocalStorage();
-        Selenide.open(baseUrl);
-        loginSteps.clickOnButtonSignIn()
-                .fillInputUserEmail(email)
-                .clickOnButtonSubmit()
-                .fillInputUserPassword(password)
-                .clickOnButtonSubmit()
-                .clickOnButtonSubmit();
-        loginSteps.checkPageTitle("Test Title");
     }
 }
