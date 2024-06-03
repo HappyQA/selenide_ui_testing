@@ -40,9 +40,7 @@ public class Configuration {
         SomeLoginSteps someLoginSteps = new SomeLoginSteps();
         someLoginSteps.clickOnButtonSignIn()
                 .fillInputUserEmail(cfg.user())
-                .clickOnButtonSubmit()
                 .fillInputUserPassword(cfg.password())
-                .clickOnButtonSubmit()
                 .clickOnButtonSubmit();
         someLoginSteps.checkPageTitle("Test Title");
     }
